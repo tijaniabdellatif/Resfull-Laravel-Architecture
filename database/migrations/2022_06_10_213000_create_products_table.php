@@ -21,11 +21,11 @@ class CreateProductsTable extends Migration
             $table->integer('quantity',false,true);
             $table->string('status')->default(Product::UNAVAILABLE_PRODUCTS);
             $table->string('image');
-            $table->integer('seller_id',false,true);
+            $table->foreignId('seller_id')->constrained('users');
             $table->enum('color',['red','blue','purple']);
             $table->timestamps();
 
-            $table->foreign('seller_id')->references("id")->on('users');
+
         });
     }
 

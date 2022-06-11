@@ -20,14 +20,12 @@ class DatabaseSeeder extends Seeder
     {
 
 
-        DB::statement('SET FOREIGN_KEY_CHECK = 0');
         $this->call([
 
             UserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
             TransactionSeeder::class
-
         ]);
     }
 }
