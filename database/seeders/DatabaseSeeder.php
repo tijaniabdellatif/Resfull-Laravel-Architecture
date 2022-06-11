@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 
@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+
+        DB::statement('SET FOREIGN_KEY_CHECK = 0');
         $this->call([
 
             UserSeeder::class,
