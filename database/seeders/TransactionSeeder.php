@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-
 use Illuminate\Database\Seeder;
+use App\Models\Transaction;
 
-class CategorySeeder extends Seeder
+class TransactionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +15,6 @@ class CategorySeeder extends Seeder
     public function run()
     {
 
-        Category::factory()->count(6)->create();
-
+        Transaction::factory()->count(20)->create();
     }
 }
