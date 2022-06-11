@@ -13,7 +13,6 @@ class Product extends Model
     const UNAVAILABLE_PRODUCTS = 'unavailable';
 
     protected $fillable = [
-
         'name',
         'description',
         'quantity',
@@ -28,5 +27,26 @@ class Product extends Model
 
        return $this->status === Product::AVAILABLE_PRODUCTS;
     }
+
+
+    public function seller(){
+
+        return $this->belongsTo(Seller::class);
+    }
+
+
+    public function transactions(){
+
+        return $this->hasMany(Transaction::class);
+
+    }
+
+
+
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
+
+
 
 }
