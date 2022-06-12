@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\Buyer;
 
-class BuyerController extends Controller
+class BuyerController extends ApiController
 {
 
 
