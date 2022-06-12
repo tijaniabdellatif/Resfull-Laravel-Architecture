@@ -57,6 +57,25 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * Mutator setName
+     *
+     * @param [String] $name
+     * @return String name
+     */
+    public function setNameAttribute($name){
+         $this->attributes['name'] = strtolower($name) ;
+    }
+
+    public function getNameAttribute($name):String {
+        return \ucwords($name);
+    }
+
+   public function setEmailAttribute($email){
+    $this->attributes['email'] = strtolower($email) ;
+    }
+
+
 
     public function isVerified(){
 
