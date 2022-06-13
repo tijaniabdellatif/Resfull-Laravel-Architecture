@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/RestFull":{"type":null,"mount_options":["uid=1000","gid=1000","_netdev"],"guestpath":"/home/vagrant/RestFull","hostpath":"C:/wamp/www/webServices/RestFull","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/wamp/www/webServices/RestFull","disabled":false,"__vagrantfile":true}}}
