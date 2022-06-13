@@ -29,9 +29,7 @@ class UserController extends ApiController
     {
 
          $users = $this->user->all();
-         return response()->json([
-               'data' => $users
-         ],200);
+        return $this->showAll($users);
 
     }
 
@@ -63,11 +61,8 @@ class UserController extends ApiController
           $data['admin']=User::REGULAR_USER;
           $addedUser = $this->user->create($data);
 
-        return response()->json([
 
-               'data' => $addedUser
-        ],201);
-
+          return $this->showOne($addedUser,201);
     }
 
     /**
@@ -82,11 +77,7 @@ class UserController extends ApiController
 
         $aUser = $this->user->findOrFail($id);
 
-        return response()->json([
-
-            'data' => $aUser
-
-        ],200);
+       return $this->showOne($aUser);
 
 
     }
@@ -168,10 +159,7 @@ class UserController extends ApiController
                 ,500);
           }else {
 
-            return response()->json([
-
-                   'data' => $aUser
-            ],200);
+           return $this->showOne($aUser);
           }
 
 
