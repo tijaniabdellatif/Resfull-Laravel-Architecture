@@ -124,39 +124,23 @@ class UserController extends ApiController
          }
 
          if($request->has('admin') && !$aUser->isVerified()){
-                        return response()->json(
-                            [
-                                'error' => 'Only verified users can modify the admin field',
-                                'status' => 409
-                            ]
 
-                            ,409);
+            return $this->errorResponse('Only verified users can modify the admin field',409);
 
           }
 
 
           if(!$aUser->isDirty()){
 
-            return response()->json(
-                [
-                    'error' => 'You need to specify different values',
-                    'status' => 422
-                ]
+            return $this->errorResponse('You need to specify different values',422);
 
-                ,422);
           }
 
 
 
           if(!$aUser->save()){
 
-            return response()->json(
-                [
-                    'error' => 'General Error something were wrong',
-                    'status' => 500
-                ]
-
-                ,500);
+            return $this->errorResponse('General Error something were wrong',500);
           }else {
 
            return $this->showOne($aUser);
