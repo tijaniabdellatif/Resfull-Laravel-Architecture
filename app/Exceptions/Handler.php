@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -106,8 +107,14 @@ class Handler extends ExceptionHandler
 
 
         $this->renderable(function(MethodNotAllowedHttpException $e,$request){
+    
 
-            return $this->errorResponse($e->getMessage(),405);
+            return $this->errorResponse($e->getMessage(),$e->getStatusCode());
+        });
+
+        $this->renderable(function(HttpException $e,$request){
+
+            return $this->errorResponse($e->getMessage(),$e->getStatusCode());
         });
         
     }
