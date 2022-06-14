@@ -3,11 +3,14 @@
 namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
+use BadMethodCallException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -61,16 +64,25 @@ class Handler extends ExceptionHandler
         $this->renderable(function(NotFoundHttpException $e,$request){
 
             if($this->isHttpException($e)){
-                $message = ($e->getMessage());
+               
                 $code = $e->getStatusCode();
 
                 switch($code){
 
+                    case 200:
+                        return $this->errorResponse('Error',$code);
+                        break;
+
                     case 404: 
+                        $message = ($e->getMessage());
+                        if($message === ''){
+                         return $this->errorResponse('Not found endpoints',$code);
+                        }
                         return $this->errorResponse($message,$code);
+                       
                         break;
                     case 500 :
-                        return $this->errorResponse($message,$code);
+                        return $this->errorResponse('Internal error',$code);
                         break;  
                 }
             }
@@ -90,6 +102,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function(AuthorizationException $e,$request){
 
              return $this->errorResponse($e->getMessage(),403);
+        });
+
+
+        $this->renderable(function(MethodNotAllowedHttpException $e,$request){
+
+            return $this->errorResponse($e->getMessage(),405);
         });
         
     }
