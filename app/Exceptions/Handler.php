@@ -101,25 +101,25 @@ class Handler extends ExceptionHandler
               return $this->unauthenticated($request,$e);
         });
 
-        $this->renderable(function(AuthorizationException $e,$request){
+        $this->renderable(function(AuthorizationException $e){
 
              return $this->errorResponse($e->getMessage(),403);
         });
 
 
-        $this->renderable(function(MethodNotAllowedHttpException $e,$request){
+        $this->renderable(function(MethodNotAllowedHttpException $e){
     
 
             return $this->errorResponse($e->getMessage(),$e->getStatusCode());
         });
 
-        $this->renderable(function(HttpException $e,$request){
+        $this->renderable(function(HttpException $e){
 
             return $this->errorResponse($e->getMessage(),$e->getStatusCode());
         });
 
 
-        $this->renderable(function(QueryException $e,$request){
+        $this->renderable(function(QueryException $e){
 
              $errorCode = $e->errorInfo[1];
              if($errorCode === 1451){
@@ -128,6 +128,8 @@ class Handler extends ExceptionHandler
                  ,409);
              }
         });
+
+        return $this->errorResponse('Unexpected Exception, Please Try again',500);
         
     }
 
