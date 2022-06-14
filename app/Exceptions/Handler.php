@@ -6,6 +6,7 @@ use App\Traits\ApiResponser;
 use BadMethodCallException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -115,6 +116,17 @@ class Handler extends ExceptionHandler
         $this->renderable(function(HttpException $e,$request){
 
             return $this->errorResponse($e->getMessage(),$e->getStatusCode());
+        });
+
+
+        $this->renderable(function(QueryException $e,$request){
+
+             $errorCode = $e->errorInfo[1];
+             if($errorCode === 1451){
+
+                 return $this->errorResponse('Can not remove this resource permanently due to its relation with other ressource '
+                 ,409);
+             }
         });
         
     }
