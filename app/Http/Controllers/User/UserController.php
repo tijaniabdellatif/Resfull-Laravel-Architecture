@@ -28,7 +28,7 @@ class UserController extends ApiController
     public function index()
     {
 
-         $users = $this->user->all();
+         $users = $this->users->all();
         return $this->showAll($users);
 
     }
@@ -50,7 +50,9 @@ class UserController extends ApiController
 
           ];
 
-          $this->validate($request,$rules);
+         $this->validate($request,$rules);
+
+
 
 
           $data = $request->all();

@@ -43,3 +43,7 @@ Route::resource('products',ProductController::class,['only' => ['index','show']]
 Route::resource('sellers',SellerController::class,['only' => ['index','show']]);
 Route::resource('transactions',TransactionController::class,['only' => ['index','show']]);
 Route::resource('users',UserController::class,['except' => ['create','edit']]);
+// Route::fallback(function() {
+
+//     return response()->json(['error' => 'Not found','status' => 404],404);
+// });
