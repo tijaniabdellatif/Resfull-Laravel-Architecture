@@ -47,12 +47,18 @@ class Handler extends ExceptionHandler
     public function register()
     {
 
+        /**
+         * Handle Validation Errors
+         */
         $this->renderable(function(ValidationException $e,$request){
 
             return $this->convertExceptionToResponse($e);
 
         });
 
+        /**
+         * Handle NotFound Exception
+         */
         $this->renderable(function(NotFoundHttpException $e,$request){
 
             if($this->isHttpException($e)){
@@ -76,6 +82,11 @@ class Handler extends ExceptionHandler
         });
 
 
+        $this->renderable(function (AuthenticationException $e,$request){
+
+
+              return $this->unauthenticated($request,$e);
+        });
         
     }
 
