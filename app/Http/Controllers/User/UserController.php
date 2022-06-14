@@ -73,13 +73,10 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
 
-
-        $aUser = $this->user->findOrFail($id);
-
-       return $this->showOne($aUser);
+       return $this->showOne($user);
 
 
     }
@@ -92,13 +89,13 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $aUser = User::findOrFail($id);
+
 
         $rules = [
 
-            'email' => 'email|unique:users,email,'.$aUser->id,
+            'email' => 'email|unique:users,email,'.$user->id,
             'password' => 'min:6|confirmed',
             "admin" => 'in:'.User::ADMIN_USER.','.User::REGULAR_USER,
 
@@ -108,31 +105,31 @@ class UserController extends ApiController
 
          if($request->has('name')){
 
-            $aUser->name =$request->name;
+            $user->name =$request->name;
          }
 
-         if($request->has('email') && $aUser->email !== $request->email){
+         if($request->has('email') && $user->email !== $request->email){
 
-            $aUser->verified = User::UNVERIFIED_USER;
-            $aUser->verif_token = User::generateVerifCode();
-            $aUser->email = $request->email;
+            $user->verified = User::UNVERIFIED_USER;
+            $user->verif_token = User::generateVerifCode();
+            $user->email = $request->email;
 
 
          }
 
          if($request->has('password')){
 
-              $aUser->password = Hash::make($request->password);
+              $user->password = Hash::make($request->password);
          }
 
-         if($request->has('admin') && !$aUser->isVerified()){
+         if($request->has('admin') && !$user->isVerified()){
 
             return $this->errorResponse('Only verified users can modify the admin field',409);
 
           }
 
 
-          if(!$aUser->isDirty()){
+          if(!$user->isDirty()){
 
             return $this->errorResponse('You need to specify different values',422);
 
@@ -140,12 +137,12 @@ class UserController extends ApiController
 
 
 
-          if(!$aUser->save()){
+          if(!$user->save()){
 
             return $this->errorResponse('General Error something were wrong',500);
           }else {
 
-           return $this->showOne($aUser);
+           return $this->showOne($user);
           }
 
 
@@ -158,29 +155,12 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $aUser = User::findOrFail($id);
 
+       $user->delete();
 
-
-       if(!$aUser->delete()){
-        return response()->json(
-            [
-                'error' => 'General Error something were wrong',
-                'status' => 500
-            ]
-
-            ,500);
-
-       }else {
-
-        return response()->json([
-
-               'data' => $aUser
-        ],200);
-      }
-
+       return $this->showOne($user);
 
 
     }
