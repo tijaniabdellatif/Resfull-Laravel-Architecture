@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('seller_id')->constrained('users');
             $table->enum('color',['red','blue','purple']);
             $table->timestamps();
+            $table->softDeletes();
 
 
         });

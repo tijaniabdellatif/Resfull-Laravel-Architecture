@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('buyer_id')->constrained('users');
             $table->string('infos',1000)->default('informations XXX');
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }
