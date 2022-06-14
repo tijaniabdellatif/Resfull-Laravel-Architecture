@@ -15,7 +15,7 @@ class Product extends Model
     const AVAILABLE_PRODUCTS = 'available';
     const UNAVAILABLE_PRODUCTS = 'unavailable';
 
- 
+
     protected $fillable = [
         'name',
         'description',
@@ -24,6 +24,11 @@ class Product extends Model
         'image',
         'selled_id',
         'color'
+    ];
+
+    protected $hidden = [
+
+        'pivot'
     ];
 
 
