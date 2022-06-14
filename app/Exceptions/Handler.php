@@ -5,9 +5,10 @@ namespace App\Exceptions;
 use App\Traits\ApiResponser;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,17 +47,36 @@ class Handler extends ExceptionHandler
     public function register()
     {
 
-        $this->reportable(function (Throwable $e) {
-
-
-        })->stop();
-
-    
         $this->renderable(function(ValidationException $e,$request){
 
             return $this->convertExceptionToResponse($e);
 
         });
+
+        $this->renderable(function(NotFoundHttpException $e,$request){
+
+            if($this->isHttpException($e)){
+                $message = ($e->getMessage());
+                $code = $e->getStatusCode();
+
+                switch($code){
+
+                    case 404: 
+                        return $this->errorResponse($message,$code);
+                        break;
+                    case 500 :
+                        return $this->errorResponse($message,$code);
+                        break;  
+                }
+            }
+
+          
+            
+
+        });
+
+
+        
     }
 
 
@@ -74,9 +94,17 @@ class Handler extends ExceptionHandler
 
     protected function convertExceptionToResponse(Throwable $e)
     {
-        $errors = $e->validator->errors()->getMessages();
 
-        return $this->errorResponse($errors,422);
+
+            $errors = $e->validator->errors()->getMessages();
+
+            return $this->errorResponse($errors,422);
+        
+        
+       
     }
+
+
+    
   
 }
