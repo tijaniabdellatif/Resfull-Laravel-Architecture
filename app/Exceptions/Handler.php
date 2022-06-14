@@ -3,9 +3,8 @@
 namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
-
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -87,9 +86,15 @@ class Handler extends ExceptionHandler
 
               return $this->unauthenticated($request,$e);
         });
+
+        $this->renderable(function(AuthorizationException $e,$request){
+
+             return $this->errorResponse($e->getMessage(),403);
+        });
         
     }
 
+    
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
