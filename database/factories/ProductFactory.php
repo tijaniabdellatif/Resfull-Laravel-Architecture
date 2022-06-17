@@ -34,9 +34,7 @@ class ProductFactory extends Factory
             ),
 
             'seller_id' => User::all()->random()->id,
-            'color' => $this->faker->randomElement(
-                     ['red','blue','purple']
-            )
+
           ];
     }
 }

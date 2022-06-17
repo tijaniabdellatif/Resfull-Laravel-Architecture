@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->string('status')->default(Product::UNAVAILABLE_PRODUCTS);
             $table->string('image');
             $table->foreignId('seller_id')->constrained('users');
-            $table->enum('color',['red','blue','purple']);
             $table->timestamps();
             $table->softDeletes();
 

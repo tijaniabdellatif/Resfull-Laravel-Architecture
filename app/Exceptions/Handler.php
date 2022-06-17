@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
 use BadMethodCallException;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
@@ -66,7 +67,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function(NotFoundHttpException $e,$request){
 
             if($this->isHttpException($e)){
-               
+
                 $code = $e->getStatusCode();
 
                 switch($code){
@@ -75,22 +76,21 @@ class Handler extends ExceptionHandler
                         return $this->errorResponse('Error',$code);
                         break;
 
-                    case 404: 
+                    case 404:
                         $message = ($e->getMessage());
                         if($message === ''){
                          return $this->errorResponse('Not found endpoints',$code);
                         }
                         return $this->errorResponse($message,$code);
-                       
                         break;
-                    case 500 :
-                        return $this->errorResponse('Internal error',$code);
-                        break;  
+
+                    default: throw new \Exception('Unknowerror',1);
+
                 }
             }
 
-          
-            
+
+
 
         });
 
@@ -108,7 +108,7 @@ class Handler extends ExceptionHandler
 
 
         $this->renderable(function(MethodNotAllowedHttpException $e){
-    
+
 
             return $this->errorResponse($e->getMessage(),$e->getStatusCode());
         });
@@ -130,10 +130,10 @@ class Handler extends ExceptionHandler
         });
 
         return $this->errorResponse('Unexpected Exception, Please Try again',500);
-        
+
     }
 
-    
+
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
@@ -154,12 +154,12 @@ class Handler extends ExceptionHandler
             $errors = $e->validator->errors()->getMessages();
 
             return $this->errorResponse($errors,422);
-        
-        
-       
+
+
+
     }
 
 
-    
-  
+
+
 }

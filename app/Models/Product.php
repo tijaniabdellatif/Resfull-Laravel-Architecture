@@ -10,26 +10,23 @@ class Product extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+
 
     const AVAILABLE_PRODUCTS = 'available';
     const UNAVAILABLE_PRODUCTS = 'unavailable';
 
 
-    protected $fillable = [
-        'name',
-        'description',
-        'quantity',
-        'status',
-        'image',
-        'selled_id',
-        'color'
+    protected $guarded = [
+
+
     ];
 
     protected $hidden = [
 
         'pivot'
     ];
+
+    protected $dates = ['deleted_at'];
 
 
     public function isAvailable(){
@@ -53,6 +50,7 @@ class Product extends Model
 
 
     public function categories(){
+
         return $this->belongsToMany(Category::class);
     }
 
