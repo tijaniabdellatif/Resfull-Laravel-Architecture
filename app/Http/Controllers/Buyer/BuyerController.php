@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\ApiController;
-use Illuminate\Http\Request;
 use App\Models\Buyer;
+
 
 class BuyerController extends ApiController
 {
@@ -19,6 +19,12 @@ class BuyerController extends ApiController
     {
         $buyers = Buyer::has('transactions')->get();
 
+
+        // return response()->json(['data' => $buyers] ,200);
+
+        // $buyers = User::where('verified',"=",'1')->get();
+
+
         return $this->showAll($buyers);
     }
 
@@ -31,10 +37,9 @@ class BuyerController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function show(Buyer $buyer)
+
     {
-        //$buyer = Buyer::has('transactions')->findOrFail($id);
-
-
+        dd($buyer);
         return $this->showOne($buyer);
     }
 

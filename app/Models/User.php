@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -32,14 +32,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'verified',
-        'verif_token',
-        'admin',
-    ];
+    protected $guarded;
 
     /**
      * The attributes that should be hidden for serialization.

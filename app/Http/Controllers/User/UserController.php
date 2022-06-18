@@ -97,7 +97,7 @@ class UserController extends ApiController
 
             'email' => 'email|unique:users,email,'.$user->id,
             'password' => 'min:6|confirmed',
-            "admin" => 'in:'.User::ADMIN_USER.','.User::REGULAR_USER,
+             "admin" => 'in:'.User::ADMIN_USER.','.User::REGULAR_USER,
 
          ];
 
