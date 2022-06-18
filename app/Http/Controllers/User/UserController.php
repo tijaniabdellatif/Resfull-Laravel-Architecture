@@ -11,12 +11,7 @@ class UserController extends ApiController
 {
 
 
-    protected $user;
 
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +23,7 @@ class UserController extends ApiController
     public function index()
     {
 
-         $users = $this->user->all();
+        $users = User::all();
         return $this->showAll($users);
 
     }
@@ -61,7 +56,7 @@ class UserController extends ApiController
           $data['verified'] = User::UNVERIFIED_USER;
           $data['verif_token'] = User::generateVerifCode();
           $data['admin']=User::REGULAR_USER;
-          $addedUser = $this->user->create($data);
+          $addedUser = User::create($data);
 
 
           return $this->showOne($addedUser,201);
@@ -162,6 +157,20 @@ class UserController extends ApiController
 
        return $this->showOne($user);
 
+
+    }
+
+
+    public function verify($token){
+
+          $user = User::where('verif_token','=',$token)->firstOrFail();
+
+          $user->verified = User::VERIFIED_USER;
+          $user->verif_token = null;
+
+          $user->save();
+
+          return $this->showMessage('The account has been verified succesfully');
 
     }
 }
