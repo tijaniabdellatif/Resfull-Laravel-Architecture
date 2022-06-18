@@ -9,7 +9,9 @@ use App\Models\Seller;
 use App\Models\User;
 use Exception;
 use GuzzleHttp\Handler\Proxy;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -112,6 +114,17 @@ class SellerProductController extends ApiController
                 }
           }
 
+
+          if($request->hasFile('image')){
+
+                Storage::delete($request->image);
+
+                $product->image = $request->image->store('');
+          }
+
+
+
+
           if($product->isClean()){
 
                return $this->errorResponse('You need to specify a different value to update',422);
@@ -142,6 +155,8 @@ class SellerProductController extends ApiController
     {
 
         $this->checkSeller($seller,$product);
+
+        Storage::delete($product->image);
 
         $product->delete();
 
